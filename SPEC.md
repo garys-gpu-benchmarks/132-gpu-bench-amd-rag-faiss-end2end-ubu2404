@@ -25,7 +25,7 @@ Run scripts/gpu-bench-rag-faiss-end2end.py for squad_v2 retrieval, BGE embedding
 
 raw_results.csv with pass1, pass2, and summary copies of the same aggregate, plus queries.csv with one row per measured query
 
-check_name,end_to_end_query_latency_retrieval_generation_ms,generation_phase_time_to_first_token_ms,retrieval_latency_vector_search_ms,faiss_index_ntotal,generation_throughput_output_tokens_s,embedding_throughput_docs_s,index_backend,corpus_docs,chunk_count,query_count,chunk_overlap
+check_name,end_to_end_query_latency_retrieval_generation_ms,generation_phase_time_to_first_token_ms,retrieval_latency_vector_search_ms,faiss_index_ntotal,generation_throughput_output_tokens_s,embedding_throughput_chunks_s,index_backend,corpus_docs,chunk_count,query_count,chunk_overlap
 summary,800,120,2.5,400,40,200,1,50,400,8,20
 
 ## Metrics
@@ -34,7 +34,7 @@ summary,800,120,2.5,400,40,200,1,50,400,8,20
 - **#2: Generation TTFT, ms** — stored as `generation_phase_time_to_first_token_ms`.
 - **#3: Retrieval latency** — stored as `retrieval_latency_vector_search_ms`.
 - **#4: Gen throughput, tok/s** — stored as `generation_throughput_output_tokens_s`.
-- **#5: Embedding throughput** — stored as `embedding_throughput_docs_s`.
+- **#5: Embedding throughput, chunks/s** — stored as `embedding_throughput_chunks_s`.
 - **#6: FAISS index vectors** — stored as `faiss_index_ntotal`.
 
 ## Framework
@@ -82,7 +82,7 @@ BENCHMARK_DB=tests/fixtures/benchmark.db \
 
 raw_results.csv with pass1, pass2, and summary copies of the same aggregate, plus queries.csv with one row per measured query
 
-check_name,end_to_end_query_latency_retrieval_generation_ms,generation_phase_time_to_first_token_ms,retrieval_latency_vector_search_ms,faiss_index_ntotal,generation_throughput_output_tokens_s,embedding_throughput_docs_s,index_backend,corpus_docs,chunk_count,query_count,chunk_overlap
+check_name,end_to_end_query_latency_retrieval_generation_ms,generation_phase_time_to_first_token_ms,retrieval_latency_vector_search_ms,faiss_index_ntotal,generation_throughput_output_tokens_s,embedding_throughput_chunks_s,index_backend,corpus_docs,chunk_count,query_count,chunk_overlap
 summary,800,120,2.5,400,40,200,1,50,400,8,20
 
 ```bash
