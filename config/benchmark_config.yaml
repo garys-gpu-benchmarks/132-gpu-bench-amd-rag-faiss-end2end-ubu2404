@@ -13,13 +13,17 @@ sweep:
     baseline: 256
     extended: 256
   chunk_overlap: 32
+  corpus_dataset: rajpurkar/squad_v2
   top_k: 5
+  embedding_model: BAAI/bge-small-en-v1.5
   query_length: 32
   batch_size:
     smoke: 2
     baseline: 8
     extended: 8
+  llm_model: mistralai/Mistral-7B-v0.3
   query_count:
     smoke: 2
     baseline: 200
     extended: 650
+  reranker_model: BAAI/bge-reranker-base

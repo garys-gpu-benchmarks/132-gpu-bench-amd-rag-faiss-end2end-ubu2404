@@ -57,7 +57,7 @@
   {
     "field_name": "Execution Description With Parameters",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Runs scripts/gpu-bench-rag-faiss-end2end.py: load rajpurkar/squad_v2, embed with BAAI/bge-small-en-v1.5, search FAISS IndexFlatIP, rerank with BAAI/bge-reranker-base, and generate with mistralai/Mistral-7B-v0.3 for the yaml query_count. output_format: csv"
+    "value": "Runs scripts/gpu-bench-rag-faiss-end2end.py: load rajpurkar/squad_v2, embed with BAAI/bge-small-en-v1.5, search FAISS IndexFlatIP, rerank with BAAI/bge-reranker-base, and generate with mistralai/Mistral-7B-v0.3 for the yaml query_count. output_format: csv. corpus_dataset: corpus identifier loaded for retrieval. embedding_model: embedding model id used for chunk and query vectors. llm_model: causal model id used to generate answers. reranker_model: cross-encoder id used to rerank retrieved passages"
   },
   {
     "field_name": "Execution Domain",
@@ -102,17 +102,17 @@
   {
     "field_name": "run_benchmark Command Plus Options for Smoke Run",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "bash run_benchmark.sh --smoke --validate --chunk-size 64 --chunk-overlap 32 --top-k 5 --query-length 32 --batch-size 2 --query-count 2"
+    "value": "bash run_benchmark.sh --smoke --validate --chunk-size 64 --chunk-overlap 32 --corpus-dataset rajpurkar/squad_v2 --top-k 5 --embedding-model BAAI/bge-small-en-v1.5 --query-length 32 --batch-size 2 --llm-model mistralai/Mistral-7B-v0.3 --query-count 2 --reranker-model BAAI/bge-reranker-base"
   },
   {
     "field_name": "run_benchmark Command Plus Options for Baseline Run",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "bash run_benchmark.sh --baseline --validate --chunk-size 256 --chunk-overlap 32 --top-k 5 --query-length 32 --batch-size 8 --query-count 200"
+    "value": "bash run_benchmark.sh --baseline --validate --chunk-size 256 --chunk-overlap 32 --corpus-dataset rajpurkar/squad_v2 --top-k 5 --embedding-model BAAI/bge-small-en-v1.5 --query-length 32 --batch-size 8 --llm-model mistralai/Mistral-7B-v0.3 --query-count 200 --reranker-model BAAI/bge-reranker-base"
   },
   {
     "field_name": "run_benchmark Command Plus Options for Extended Run",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "bash run_benchmark.sh --extended --validate --chunk-size 256 --chunk-overlap 32 --top-k 5 --query-length 32 --batch-size 8 --query-count 650"
+    "value": "bash run_benchmark.sh --extended --validate --chunk-size 256 --chunk-overlap 32 --corpus-dataset rajpurkar/squad_v2 --top-k 5 --embedding-model BAAI/bge-small-en-v1.5 --query-length 32 --batch-size 8 --llm-model mistralai/Mistral-7B-v0.3 --query-count 650 --reranker-model BAAI/bge-reranker-base"
   },
   {
     "field_name": "Output Fields / Metrics to Parse",
@@ -237,42 +237,42 @@
   {
     "field_name": "Parameter_03",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "top_k"
+    "value": "corpus_dataset"
   },
   {
     "field_name": "Parameter_04",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "query_length"
+    "value": "top_k"
   },
   {
     "field_name": "Parameter_05",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "batch_size"
+    "value": "embedding_model"
   },
   {
     "field_name": "Parameter_06",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "query_count"
+    "value": "query_length"
   },
   {
     "field_name": "Parameter_07",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "-"
+    "value": "batch_size"
   },
   {
     "field_name": "Parameter_08",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "-"
+    "value": "llm_model"
   },
   {
     "field_name": "Parameter_09",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "-"
+    "value": "query_count"
   },
   {
     "field_name": "Parameter_10",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "-"
+    "value": "reranker_model"
   },
   {
     "field_name": "Parameter_11",
@@ -407,7 +407,7 @@
   {
     "field_name": "Profile Parameter Values",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Parameters_SmokeBaselineExtend",
-    "value": "{\"chunk_size\": {\"smoke\": \"64\", \"baseline\": \"256\", \"extended\": \"256\", \"notes\": \"\"}, \"chunk_overlap\": {\"smoke\": \"32\", \"baseline\": \"32\", \"extended\": \"32\", \"notes\": \"\"}, \"top_k\": {\"smoke\": \"5\", \"baseline\": \"5\", \"extended\": \"5\", \"notes\": \"\"}, \"query_length\": {\"smoke\": \"32\", \"baseline\": \"32\", \"extended\": \"32\", \"notes\": \"\"}, \"batch_size\": {\"smoke\": \"2\", \"baseline\": \"8\", \"extended\": \"8\", \"notes\": \"\"}, \"query_count\": {\"smoke\": \"2\", \"baseline\": \"200\", \"extended\": \"650\", \"notes\": \"2026-09-06: raised query_count to baseline=200/extended=500 (from a prior 100/250 hang-risk cap). Confirmed the actual mechanism in gpu-bench-rag-faiss-end2end.py: per-query cost is linear (~1.18s/query, one embed+retrieve+rerank+generate pass per query, no retry/repeat construct) -- the documented hang risk was from an earlier bug where query_count was sized off a duration-target formula meant for a different collector, producing counts in the tens of millions, not from this 2-5x increase. 200 queries ~3:56, 500 queries ~9:50, both within the intended 3-5 / 7-10 min targets. | 2026-09-12 GARY_LEDGER (runtime_ledger_101_132): extended (query_count=500) measured 7:44 (464s) against a 'make it at least 8 min' target -- just under the floor. Rate ~1.08 queries/s (~0.93s/query, close to the previously documented ~1.18s/query). Scaled 500 x (600/464) ~= 650 to retarget ~10:00, giving margin over the 8 min floor.\"}}"
+    "value": "{\"chunk_size\": {\"smoke\": \"64\", \"baseline\": \"256\", \"extended\": \"256\", \"notes\": \"\"}, \"chunk_overlap\": {\"smoke\": \"32\", \"baseline\": \"32\", \"extended\": \"32\", \"notes\": \"\"}, \"corpus_dataset\": {\"smoke\": \"rajpurkar/squad_v2\", \"baseline\": \"rajpurkar/squad_v2\", \"extended\": \"rajpurkar/squad_v2\", \"notes\": \"Pinned local HF/FAISS IDs. Mistral-7B-v0.3 is the cached snapshot.\"}, \"top_k\": {\"smoke\": \"5\", \"baseline\": \"5\", \"extended\": \"5\", \"notes\": \"\"}, \"embedding_model\": {\"smoke\": \"BAAI/bge-small-en-v1.5\", \"baseline\": \"BAAI/bge-small-en-v1.5\", \"extended\": \"BAAI/bge-small-en-v1.5\", \"notes\": \"Pinned local HF/FAISS IDs. Mistral-7B-v0.3 is the cached snapshot.\"}, \"query_length\": {\"smoke\": \"32\", \"baseline\": \"32\", \"extended\": \"32\", \"notes\": \"\"}, \"batch_size\": {\"smoke\": \"2\", \"baseline\": \"8\", \"extended\": \"8\", \"notes\": \"\"}, \"llm_model\": {\"smoke\": \"mistralai/Mistral-7B-v0.3\", \"baseline\": \"mistralai/Mistral-7B-v0.3\", \"extended\": \"mistralai/Mistral-7B-v0.3\", \"notes\": \"Pinned local HF/FAISS IDs. Mistral-7B-v0.3 is the cached snapshot.\"}, \"query_count\": {\"smoke\": \"2\", \"baseline\": \"200\", \"extended\": \"650\", \"notes\": \"2026-09-06: raised query_count to baseline=200/extended=500 (from a prior 100/250 hang-risk cap). Confirmed the actual mechanism in gpu-bench-rag-faiss-end2end.py: per-query cost is linear (~1.18s/query, one embed+retrieve+rerank+generate pass per query, no retry/repeat construct) -- the documented hang risk was from an earlier bug where query_count was sized off a duration-target formula meant for a different collector, producing counts in the tens of millions, not from this 2-5x increase. 200 queries ~3:56, 500 queries ~9:50, both within the intended 3-5 / 7-10 min targets. | 2026-09-12 GARY_LEDGER (runtime_ledger_101_132): extended (query_count=500) measured 7:44 (464s) against a 'make it at least 8 min' target -- just under the floor. Rate ~1.08 queries/s (~0.93s/query, close to the previously documented ~1.18s/query). Scaled 500 x (600/464) ~= 650 to retarget ~10:00, giving margin over the 8 min floor.\"}, \"reranker_model\": {\"smoke\": \"BAAI/bge-reranker-base\", \"baseline\": \"BAAI/bge-reranker-base\", \"extended\": \"BAAI/bge-reranker-base\", \"notes\": \"Pinned local HF/FAISS IDs. Mistral-7B-v0.3 is the cached snapshot.\"}}"
   },
   {
     "field_name": "Profile Command Authorship",
