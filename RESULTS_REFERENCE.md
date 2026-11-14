@@ -3,7 +3,7 @@
 **Main goal:** Measure end-to-end RAG retrieval plus generation performance  
 **Tools:** Run scripts/gpu-bench-rag-faiss-end2end.py for squad_v2 retrieval, BGE embeddings, FAISS search, and Mistral generation
 
-Reference results measured by the maintainer on the system shown in each section (generator TEMPLATE_00_139 · recorded 2026-11-13). Your own runs write `results/RESULTS_ACTUAL.md` in the same format.
+Reference results measured by the maintainer on the system shown in each section (generator TEMPLATE_00_140 · recorded 2026-11-13). Your own runs write `results/RESULTS_ACTUAL.md` in the same format.
 
 > Smoke runs use deliberately small sizes. They check that the workload installs and runs end to end; their numbers are not performance results. Baseline and extended are.
 
@@ -11,17 +11,17 @@ Reference results measured by the maintainer on the system shown in each section
 ## smoke
 
 - **System:** 1× AMD Instinct MI300X VF (196288 MB) · INTEL(R) XEON(R) PLATINUM 8568Y+ · Ubuntu 24.04.5 LTS · kernel 6.8.0-147-generic · driver 7.1.9.31600000
-- **Run:** 2026-11-13T15:17:24Z · status **PASS** (exit 0)
-- **Time (mm:ss):** setup 06:14 · benchmark 00:24 · whole run 06:53
-- **Source:** run 132_20261113_151724
+- **Run:** 2026-11-13T21:52:22Z · status **PASS** (exit 0)
+- **Time (mm:ss):** setup 11:53 · benchmark 00:33 · whole run 12:39
+- **Source:** run 132_20261113_215222
 - **Command:** `bash run_benchmark.sh --smoke --chunk-size 64 --chunk-overlap 32 --corpus-dataset rajpurkar/squad_v2 --top-k 5 --embedding-model BAAI/bge-small-en-v1.5 --query-length 32 --batch-size 2 --llm-model mistralai/Mistral-7B-v0.3 --query-count 2 --reranker-model BAAI/bge-reranker-base`
 
 | # | Metric | Result |
 |---|---|---|
-| 1 | E2E mean over queries, ms (end_to_end_query_latency_retrieval_generation_ms) | 301.58768000001146 |
-| 2 | Generation TTFT, ms (generation_phase_time_to_first_token_ms) | 43.41774800013809 |
-| 3 | CPU FAISS retrieval latency, ms (retrieval_latency_vector_search_ms) | 0.11952400018344633 |
-| 4 | Gen throughput, tok/s (generation_throughput_output_tokens_s) | 55.84782642887219 |
-| 5 | Embedding throughput, chunks/s (embedding_throughput_chunks_s) | 73.68515166959001 |
+| 1 | E2E mean over queries, ms (end_to_end_query_latency_retrieval_generation_ms) | 386.2064510012715 |
+| 2 | Generation TTFT, ms (generation_phase_time_to_first_token_ms) | 57.080082999164006 |
+| 3 | CPU FAISS retrieval latency, ms (retrieval_latency_vector_search_ms) | 0.1382469999953173 |
+| 4 | Gen throughput, tok/s (generation_throughput_output_tokens_s) | 43.64006578180008 |
+| 5 | Embedding throughput, chunks/s (embedding_throughput_chunks_s) | 56.76702787691898 |
 | 6 | FAISS index vectors (faiss_index_ntotal) | 217.0 |
 <!-- /profile:smoke -->
